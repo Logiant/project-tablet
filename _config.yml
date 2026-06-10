@@ -2,12 +2,12 @@
 # Site identity — when you pick a real name, change these two lines
 # and everything (homepage title, feed, browser tabs) updates.
 # ------------------------------------------------------------------
-title: "Project Tablet"
+title: "Kārum"
 subtitle: "A Materialist Economic Strategy Game"
 description: >-
   A systems-engineering devlog about building a Bronze Age economy sim,
   where loyalty, diplomacy, and rebellion are made of grain, silver, and people.
-author: "Ƿyrceþrang Áspyre"
+author: "Logan Beaver"
 studio_url: "https://www.wyrcethrang.com"
 
 # ------------------------------------------------------------------
