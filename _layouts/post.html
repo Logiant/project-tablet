@@ -1,18 +1,23 @@
 ---
 layout: default
 ---
-<article>
-  <header>
-    <p class="eyebrow">Devlog{% if page.number %} · Entry {{ page.number }}{% endif %}</p>
-    <h1>{{ page.title }}</h1>
-    <p class="dateline">{{ site.author }} · {{ page.date | date: "%B %-d, %Y" }}</p>
-  </header>
+<main class="sheet flow-top">
+  <article>
+    <header>
+      <p class="eyebrow">Devlog{% if page.number %} · Entry {{ page.number }}{% endif %}</p>
+      <h1>{{ page.title }}</h1>
+      <p class="dateline">{{ site.author }} · {{ page.date | date: "%B %-d, %Y" }}</p>
+    </header>
 
-  {{ content }}
+    {{ content }}
+  </article>
+</main>
 
+<!-- Cylinder-seal impression: ŠE · KUG · LU₂ — grain, silver, people -->
+<div class="seal" aria-hidden="true">𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽</div>
+
+<section class="sheet flow-bottom">
   <nav class="post-nav">
-    <!-- Cylinder-seal impression: ŠE · KUG · LU₂ — grain, silver, people -->
-    <div class="seal on-paper" aria-hidden="true">𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽</div>
     <p>
       {% if page.previous %}
         ← <a href="{{ page.previous.url | relative_url }}">{{ page.previous.title }}</a>
@@ -23,4 +28,12 @@ layout: default
       {% endif %}
     </p>
   </nav>
-</article>
+  <p>
+    <strong>Follow the build.</strong>
+    New posts roughly monthly: grab the <a href="{{ '/feed.xml' | relative_url }}">RSS feed</a>
+    or get posts by email.
+    <!-- When your Buttondown account exists, replace the link below with
+         your embedded form or your Buttondown page URL. -->
+    <a href="#">Email signup coming soon.</a>
+  </p>
+</section>

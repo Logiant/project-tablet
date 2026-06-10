@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
 
   <!-- Display + ornament fonts: Cinzel (chiseled titles),
-       Noto Sans Cuneiform (the divider glyphs) -->
+       Noto Sans Cuneiform (the seal glyphs) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Sans+Cuneiform&display=swap" rel="stylesheet">
@@ -43,45 +43,41 @@
   <!-- RSS autodiscovery (jekyll-feed) -->
   {% feed_meta %}
 
-  <!-- Analytics: when ready, paste your GoatCounter snippet here.
-       https://www.goatcounter.com — one script tag, no cookie banner. -->
+  <!-- Analytics: when ready, paste your GoatCounter snippet here. -->
 </head>
-<body>
+<body class="gallery">
 
   <!-- Rosette band that reappears once you scroll past the header -->
   <div class="sticky-frieze" aria-hidden="true"></div>
 
-  <nav class="site-nav">
-    <a href="{{ '/' | relative_url }}">Home</a>
-    <a href="{{ '/blog/' | relative_url }}">Devlog</a>
-    <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
-    <a href="{{ site.studio_url }}">Ƿyrceþrang</a>
-  </nav>
+  <header class="gate slim">
+    <nav class="site-nav">
+      <a href="{{ '/' | relative_url }}">Home</a>
+      <a href="{{ '/blog/' | relative_url }}">Devlog</a>
+      <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
+      <a href="{{ site.studio_url }}">Ƿyrceþrang</a>
+    </nav>
+  </header>
+
+  <div class="frieze" aria-hidden="true"></div>
+
+  <!-- Cylinder-seal impression: ŠE · KUG · LU₂ — grain, silver, people -->
+  <div class="seal" aria-hidden="true">𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽</div>
 
   {{ content }}
 
-  <footer class="site-footer">
-    <hr>
-    <p>
-      <strong>Follow the build.</strong>
-      New posts roughly monthly: grab the <a href="{{ '/feed.xml' | relative_url }}">RSS feed</a>
-      or get posts by email.
-      <!-- When your Buttondown account exists, replace the link below with
-           your embedded form, or just link to your Buttondown page:
-           https://buttondown.com/YOURNAME -->
-      <a href="#">Email signup coming soon.</a>
-    </p>
-    <p class="footnote-line">
-      A <a href="{{ site.studio_url }}">Ƿyrceþrang Áspyre</a> project ·
-      © {{ site.time | date: "%Y" }} · Built with Jekyll &amp;
-      <a href="https://latex.vercel.app/">latex.css</a>
-    </p>
+  <footer class="footer-band">
+    A <a href="{{ site.studio_url }}">Ƿyrceþrang Áspyre</a> project
+    &nbsp;·&nbsp; © {{ site.time | date: "%Y" }}
+    &nbsp;·&nbsp; <a href="{{ '/blog/' | relative_url }}">Devlog</a>
+    &nbsp;·&nbsp; <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
+    &nbsp;·&nbsp; Built with Jekyll &amp; <a href="https://latex.vercel.app/">latex.css</a>
   </footer>
 
   <script>
     (function () {
       var bar = document.querySelector(".sticky-frieze");
-      var ref = document.querySelector(".site-nav");
+      var ref = document.querySelector(".frieze") || document.querySelector(".site-nav");
       if (!bar || !ref || !("IntersectionObserver" in window)) return;
       new IntersectionObserver(function (entries) {
         var e = entries[0];

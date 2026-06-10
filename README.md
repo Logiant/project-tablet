@@ -76,12 +76,13 @@ homepage (gate → frieze → seal band → paper, like the monument itself):
   symmetric gold hairlines.
 - **`.seal`** — a cylinder-seal impression: repeating **𒊺 𒆬 𒇽** (ŠE
   *barley*, KUG *silver*, LU₂ *person* — grain, silver, labor) in gold on
-  dark fired clay. Full page width on the homepage; the `.on-paper` variant
-  bleeds across the blog sheet (used above post navigation and on the blog
-  index):
+  dark fired clay. Always full page width. Blog pages share the homepage's
+  register architecture via the layouts: slim gate (nav) → frieze → seal →
+  paper sheet(s) → footer band. Posts get a second seal between the article
+  and the post-navigation sheet:
 
 ```html
-<div class="seal on-paper" aria-hidden="true">𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 ... (repeat ~24x)</div>
+<div class="seal" aria-hidden="true">𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 ... (repeat ~36x)</div>
 ```
 
 ### Gallery mode (the homepage)

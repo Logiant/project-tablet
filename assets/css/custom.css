@@ -67,7 +67,12 @@ body.gallery {
   padding: 0;
   margin: 0 auto;
   max-width: none;
+  /* Pin the footer band to the viewport bottom on short pages */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
+body.gallery > .footer-band { margin-top: auto; }
 
 /* Nav + footer sit on the dark ground in gallery mode */
 body.gallery .site-nav {
@@ -138,6 +143,7 @@ body.gallery .footnote-line { color: rgba(245, 236, 220, 0.55); }
 /* The seal band slices between these two: the paper reads as
    continuous behind it. */
 .sheet.flow-top { margin-top: 0; margin-bottom: 0; border-bottom: none; padding-bottom: 1.4rem; }
+.sheet.flush-top { margin-top: 0; }
 .sheet.flow-bottom { margin-top: 0; border-top: none; padding-top: 1.2rem; margin-bottom: 2.6rem; }
 
 /* Screenshots: frameless, full text-column width, quiet.
@@ -249,6 +255,7 @@ h1 {
   padding-bottom: 1.8rem;
 }
 .gate .site-nav { border-bottom: none; margin-bottom: 0; }
+.gate.slim { padding-bottom: 0.5rem; }
 
 .frieze {
   height: 18px;
@@ -261,8 +268,8 @@ h1 {
 
 /* --- Seal band -------------------------------------------------------
    A cylinder-seal impression: repeating ŠE KUG LU₂ (grain, silver,
-   person) in gold on dark fired clay. Full page width on gallery
-   pages; .on-paper variant bleeds across the blog sheet.
+   person) in gold on dark fired clay. Always full page width,
+   sitting between paper sheets or registers.
    Usage: <div class="seal" aria-hidden="true">𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 ...</div> */
 .seal {
   font-family: "Noto Sans Cuneiform", serif;
@@ -277,7 +284,6 @@ h1 {
   padding: 0.55rem 0;
   user-select: none;
 }
-.seal.on-paper { margin: 2rem -3rem; }
 
 /* --- Proposition boxes ---------------------------------------------
    Lapis frame, gold bar: a glazed brick in miniature.
@@ -353,7 +359,6 @@ figcaption { font-size: 0.9rem; color: #555; margin-top: 0.4rem; }
   }
   body.gallery { margin: 0 auto; padding: 0; }
   .seal { font-size: 0.95rem; letter-spacing: 0.6em; text-indent: 0.6em; }
-  .seal.on-paper { margin: 1.6rem -1.1rem; }
   .sheet { padding: 1.4rem 1.1rem; margin: 1.6rem auto; }
   .panel { margin: 1.6rem 0; }
   .hero h1 { font-size: 2rem; }

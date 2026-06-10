@@ -30,7 +30,7 @@ url: "https://logiant.github.io"
 # ------------------------------------------------------------------
 markdown: kramdown
 kramdown:
-  math_engine: nil   # leave $$ alone; KaTeX renders it in the browser
+  math_engine: null  # leave $$ alone; KaTeX renders it in the browser
 
 plugins:
   - jekyll-feed      # generates /feed.xml (RSS) automatically

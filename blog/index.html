@@ -2,24 +2,30 @@
 layout: default
 title: Devlog
 ---
+<main class="sheet flush-top">
+  <div class="title-block">
+    <p class="eyebrow">{{ site.title }}</p>
+    <h1>Devlog</h1>
+    <p class="subtitle">Contents</p>
+  </div>
 
-<div class="title-block">
-  <p class="eyebrow">{{ site.title }}</p>
-  <h1>Devlog</h1>
-  <p class="subtitle">Contents</p>
-</div>
+  <ul class="toc">
+    {% for post in site.posts %}
+    <li>
+      <span class="toc-num">{{ site.posts.size | minus: forloop.index0 }}.</span>
+      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      <span class="toc-date">— {{ post.date | date: "%B %Y" }}</span>
+      {% if post.excerpt %}
+      <p class="toc-excerpt">{{ post.excerpt | strip_html | truncate: 180 }}</p>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
 
-<div class="seal on-paper" aria-hidden="true">𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 𒊺 𒆬 𒇽</div>
-
-<ul class="toc">
-  {% for post in site.posts %}
-  <li>
-    <span class="toc-num">{{ site.posts.size | minus: forloop.index0 }}.</span>
-    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-    <span class="toc-date">— {{ post.date | date: "%B %Y" }}</span>
-    {% if post.excerpt %}
-    <p class="toc-excerpt">{{ post.excerpt | strip_html | truncate: 180 }}</p>
-    {% endif %}
-  </li>
-  {% endfor %}
-</ul>
+  <p>
+    <strong>Follow the build.</strong>
+    New posts roughly monthly: grab the <a href="{{ '/feed.xml' | relative_url }}">RSS feed</a>
+    or get posts by email.
+    <a href="#">Email signup coming soon.</a>
+  </p>
+</main>
