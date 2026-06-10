@@ -328,6 +328,40 @@ figure { margin: 1.5rem 0; text-align: center; }
 figure img { max-width: 100%; border: 1px solid var(--paper-edge); }
 figcaption { font-size: 0.9rem; color: #555; margin-top: 0.4rem; }
 
+/* --- Email signup (Buttondown embed) --------------------------------- */
+.signup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.8rem 0 0.4rem 0;
+}
+.signup input[type="email"] {
+  flex: 1 1 14rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--paper-edge);
+  background: var(--paper);
+  color: var(--ink);
+}
+.signup input[type="email"]:focus {
+  outline: none;
+  border-color: var(--lapis);
+}
+.signup button {
+  font-family: inherit;
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+  font-size: 0.95rem;
+  padding: 0.45rem 1.1rem;
+  background: var(--gold);
+  color: var(--ground-deep);
+  border: 1px solid #e3c45a;
+  cursor: pointer;
+}
+.signup button:hover { background: #d9b337; }
+.signup-note { font-size: 0.85rem; color: #666; margin-top: 0.2rem; }
+
 /* --- Footer / misc --------------------------------------------------- */
 .footer-band {
   background: var(--ground-deep);

@@ -24,8 +24,14 @@ title: Devlog
 
   <p>
     <strong>Follow the build.</strong>
-    New posts roughly monthly: grab the <a href="{{ '/feed.xml' | relative_url }}">RSS feed</a>
-    or get posts by email.
-    <a href="#">Email signup coming soon.</a>
+    <!-- Buttondown signup -->
+    <form class="signup"
+          action="https://buttondown.com/api/emails/embed-subscribe/lebeaver"
+          method="post" target="_blank">
+      <input type="email" name="email" placeholder="you@example.com"
+             aria-label="Email address" required>
+      <button type="submit">Subscribe</button>
+    </form>
+    <p class="signup-note">One email per post, roughly monthly. Unsubscribe anytime.</p>
   </p>
 </main>
