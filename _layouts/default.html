@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | strip_newlines | truncate: 160 }}">
+
+  <!-- latex.css: makes plain HTML look like a typeset LaTeX paper -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/latex.css/style.min.css">
+  <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
+
+  <!-- Display + ornament fonts: Cinzel (chiseled titles),
+       Noto Sans Cuneiform (the divider glyphs) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Sans+Cuneiform&display=swap" rel="stylesheet">
+
+  <!-- KaTeX: renders $$ ... $$ (display) and $ ... $ (inline) math -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Safety hedge: if the Markdown engine ever wraps math in
+      // <script type="math/tex"> tags, unwrap them so KaTeX can render.
+      document.querySelectorAll('script[type^="math/tex"]').forEach(function (el) {
+        var display = el.type.indexOf("mode=display") > -1;
+        var t = document.createTextNode(display ? "$$" + el.textContent + "$$" : "$" + el.textContent + "$");
+        el.parentNode.replaceChild(t, el);
+      });
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",  right: "$",  display: false }
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+
+  <!-- RSS autodiscovery (jekyll-feed) -->
+  {% feed_meta %}
+
+  <!-- Analytics: when ready, paste your GoatCounter snippet here.
+       https://www.goatcounter.com — one script tag, no cookie banner. -->
+</head>
+<body>
+
+  <!-- Rosette band that reappears once you scroll past the header -->
+  <div class="sticky-frieze" aria-hidden="true"></div>
+
+  <nav class="site-nav">
+    <a href="{{ '/' | relative_url }}">Home</a>
+    <a href="{{ '/blog/' | relative_url }}">Devlog</a>
+    <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
+    <a href="{{ site.studio_url }}">Ƿyrceþrang</a>
+  </nav>
+
+  {{ content }}
+
+  <footer class="site-footer">
+    <hr>
+    <p>
+      <strong>Follow the build.</strong>
+      New posts roughly monthly: grab the <a href="{{ '/feed.xml' | relative_url }}">RSS feed</a>
+      or get posts by email.
+      <!-- When your Buttondown account exists, replace the link below with
+           your embedded form, or just link to your Buttondown page:
+           https://buttondown.com/YOURNAME -->
+      <a href="#">Email signup coming soon.</a>
+    </p>
+    <p class="footnote-line">
+      A <a href="{{ site.studio_url }}">Ƿyrceþrang Áspyre</a> project ·
+      © {{ site.time | date: "%Y" }} · Built with Jekyll &amp;
+      <a href="https://latex.vercel.app/">latex.css</a>
+    </p>
+  </footer>
+
+  <script>
+    (function () {
+      var bar = document.querySelector(".sticky-frieze");
+      var ref = document.querySelector(".site-nav");
+      if (!bar || !ref || !("IntersectionObserver" in window)) return;
+      new IntersectionObserver(function (entries) {
+        var e = entries[0];
+        bar.classList.toggle("show", !e.isIntersecting && e.boundingClientRect.top < 0);
+      }).observe(ref);
+    })();
+  </script>
+
+</body>
+</html>

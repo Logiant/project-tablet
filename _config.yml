@@ -1,0 +1,47 @@
+# ------------------------------------------------------------------
+# Site identity — when you pick a real name, change these two lines
+# and everything (homepage title, feed, browser tabs) updates.
+# ------------------------------------------------------------------
+title: "Project Tablet"
+subtitle: "A Materialist Economic Strategy Game"
+description: >-
+  A systems-engineering devlog about building a Bronze Age economy sim,
+  where loyalty, diplomacy, and rebellion are made of grain, silver, and people.
+author: "Ƿyrceþrang Áspyre"
+studio_url: "https://www.wyrcethrang.com"
+
+# ------------------------------------------------------------------
+# Deployment paths.
+#
+# OPTION A (recommended): new repo, e.g. github.com/you/tablet
+#   -> site lives at https://you.github.io/tablet
+#   -> set:  baseurl: "/tablet"
+#            url: "https://you.github.io"
+#
+# OPTION B: custom domain later (e.g. projecttablet.com)
+#   -> set:  baseurl: ""
+#            url: "https://projecttablet.com"
+# ------------------------------------------------------------------
+baseurl: ""
+url: ""
+
+# ------------------------------------------------------------------
+# Build settings — GitHub Pages builds this automatically on push.
+# ------------------------------------------------------------------
+markdown: kramdown
+kramdown:
+  math_engine: nil   # leave $$ alone; KaTeX renders it in the browser
+
+plugins:
+  - jekyll-feed      # generates /feed.xml (RSS) automatically
+
+feed:
+  posts_limit: 20
+
+# Sensible defaults so post files don't need to repeat themselves
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"

@@ -1,0 +1,368 @@
+/* ==================================================================
+   THEME: "Tablet in the Case"
+   The paper-white page floats like a museum document on a fired-clay
+   ground. One glazed-brick band (lapis + gold hairline) tops every
+   page. Gold marks small things; lapis marks links and structure.
+   Body text stays Latin Modern (latex.css) — the paper identity.
+   ================================================================== */
+
+:root {
+  /* Material palette — picked from the artifacts */
+  --lapis:      #1f4e79;   /* Ishtar Gate glaze (links, structure)   */
+  --lapis-deep: #16395a;   /* band shadow                            */
+  --gold:       #c9a227;   /* processional gold (decorative only)    */
+  --gold-ink:   #8f6f14;   /* gold dark enough to read on white      */
+  --clay:       #8f5d42;   /* fired clay — on-paper ornament         */
+  --ground:     #3a2a1e;   /* the dark gallery wall behind the page  */
+  --ground-deep:#241a11;
+  --cream:      #f5ecdc;   /* text on the dark ground                */
+  --paper:      #ffffff;
+  --paper-edge: #d8c9b8;
+  --ink:        #1a1a1a;
+}
+
+/* --- The ground -----------------------------------------------------
+   Dark fired umber — the artifact lit in a dim gallery, not clay in
+   daylight. Three layers: a faint grain (so it reads as surface, not
+   flat color), a soft spotlight behind the hero, and the base
+   gradient. To remove the grain, delete the first background-image
+   layer. To revert the whole theme, delete this block and the body
+   block below. */
+html {
+  min-height: 100%;
+  background-color: var(--ground);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 70% 38% at 50% 0%, rgba(143, 93, 66, 0.35) 0%, rgba(143, 93, 66, 0) 100%),
+    linear-gradient(180deg, var(--ground) 0%, var(--ground-deep) 100%);
+  background-attachment: fixed;
+}
+
+/* --- The paper sheet ---------------------------------------------- */
+body {
+  background: var(--paper);
+  margin: 3rem auto 3.5rem auto;
+  padding: 2.5rem 3rem;
+  border: 1px solid var(--paper-edge);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.20),
+    0 14px 40px rgba(40, 20, 10, 0.35);
+  /* WIDTH KNOB: latex.css keeps the sheet narrow (classic paper measure).
+     If the clay margins feel too wide on your monitor, uncomment and tune:
+  max-width: 95ch;
+  */
+}
+
+/* ==================================================================
+   GALLERY MODE — for "about the game" pages (the homepage).
+   Add class="gallery" to <body>. The body stops being one paper
+   sheet; instead, .sheet blocks are paper cards and .panel blocks
+   are screenshots set directly into the clay, framed like the
+   glazed panels of the Ishtar Gate. Blog pages are unaffected.
+   ================================================================== */
+body.gallery {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: none;
+}
+
+/* Nav + footer sit on the dark ground in gallery mode */
+body.gallery .site-nav {
+  border-bottom: none;
+  padding-top: 1.1rem;
+}
+body.gallery .site-nav a { color: rgba(245, 236, 220, 0.72); }
+body.gallery .site-nav a:hover { color: var(--cream); }
+body.gallery .site-footer,
+body.gallery .site-footer a { color: rgba(245, 236, 220, 0.85); }
+body.gallery .site-footer hr { border-color: rgba(245, 236, 220, 0.25); }
+body.gallery .footnote-line { color: rgba(245, 236, 220, 0.55); }
+
+/* Hero: bright title, everything else steps down in value */
+.hero {
+  text-align: center;
+  margin: 2.4rem 1rem 0 1rem;
+  color: var(--cream);
+}
+.hero .eyebrow {
+  color: var(--gold);
+  margin-bottom: 0.6rem;
+}
+.hero h1 {
+  font-size: 2.8rem;
+  color: var(--cream);
+  margin: 0.2rem 0 0.6rem 0;
+}
+.hero .tagline {
+  font-style: italic;
+  font-size: 1.2rem;
+  color: rgba(245, 236, 220, 0.7);
+  margin-top: 0;
+}
+
+/* CTA buttons: glazed brick you can press */
+.cta-row { text-align: center; margin: 1.5rem 0 0 0; }
+.cta {
+  display: inline-block;
+  margin: 0.3rem 0.4rem;
+  padding: 0.55rem 1.3rem;
+  background: var(--gold);
+  color: var(--ground-deep);
+  border: 1px solid #e3c45a;
+  text-decoration: none;
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+}
+.cta:hover { background: #d9b337; }
+.cta.secondary {
+  background: transparent;
+  color: var(--cream);
+  border: 1px solid rgba(245, 236, 220, 0.55);
+}
+.cta.secondary:hover { background: rgba(245, 236, 220, 0.08); }
+
+/* Paper cards within the gallery — same measure as the blog pages */
+.sheet {
+  background: var(--paper);
+  max-width: 80ch;
+  margin: 2.4rem auto;
+  padding: 2rem 2.5rem;
+  border: 1px solid var(--paper-edge);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.20),
+    0 14px 40px rgba(40, 20, 10, 0.35);
+}
+/* The seal band slices between these two: the paper reads as
+   continuous behind it. */
+.sheet.flow-top { margin-top: 0; margin-bottom: 0; border-bottom: none; padding-bottom: 1.4rem; }
+.sheet.flow-bottom { margin-top: 0; border-top: none; padding-top: 1.2rem; margin-bottom: 2.6rem; }
+
+/* Screenshots: frameless, full text-column width, quiet.
+   Usage:
+   <figure class="panel">
+     <img src="assets/img/your-capture.png" alt="...">
+     <figcaption>Fig. — what we're looking at</figcaption>
+   </figure>                                                          */
+.panel {
+  margin: 2.2rem 0;
+  text-align: center;
+}
+.panel img {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--paper-edge);
+  box-shadow: 0 2px 10px rgba(40, 20, 10, 0.12);
+}
+.panel figcaption {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #555;
+  margin-top: 0.45rem;
+}
+
+/* Gallery propositions read better on paper: unchanged styling,
+   they just live inside .sheet blocks now. */
+
+
+/* --- Sticky frieze ---------------------------------------------------
+   The rosette band reappears at the viewport top once the header has
+   scrolled away ("the gate follows you"). Hidden until then; a small
+   script in each page toggles .show. */
+.sticky-frieze {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 18px;
+  background-color: var(--lapis-deep);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='18'%3E%3Ccircle cx='14' cy='9' r='4.2' fill='none' stroke='%23c9a227' stroke-width='1.1'/%3E%3Ccircle cx='14' cy='9' r='1.4' fill='%23c9a227'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  border-bottom: 1px solid var(--gold);
+  transform: translateY(-100%);
+  transition: transform 0.25s ease;
+  z-index: 50;
+}
+.sticky-frieze.show { transform: translateY(0); }
+
+/* --- Display type --------------------------------------------------
+   Cinzel (chiseled, Trajan-like) for top-level titles only.
+   Everything else stays Latin Modern. */
+h1 {
+  font-family: "Cinzel", "Latin Modern Roman", Georgia, serif;
+  letter-spacing: 0.02em;
+}
+
+/* --- Navigation ----------------------------------------------------*/
+.site-nav {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.6rem;
+}
+.site-nav a { color: var(--lapis); text-decoration: none; }
+.site-nav a:hover { text-decoration: underline; }
+
+/* --- Title block / datelines --------------------------------------- */
+.eyebrow {
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+  color: var(--gold-ink);
+  margin-bottom: 0;
+}
+.dateline, .toc-date {
+  font-style: italic;
+  color: #555;
+}
+.title-block { text-align: center; margin-bottom: 2rem; }
+.title-block h1 { margin-bottom: 0.3rem; }
+.title-block .subtitle { font-size: 1.15rem; font-style: italic; margin-top: 0; }
+
+/* --- Abstract ------------------------------------------------------ */
+.abstract {
+  max-width: 85%;
+  margin: 1.5rem auto 2rem auto;
+  font-size: 0.95rem;
+}
+.abstract h2 {
+  font-size: 1rem;
+  text-align: center;
+  font-variant: small-caps;
+  border: none;
+  margin-bottom: 0.4rem;
+}
+
+/* --- Ishtar Gate header (gallery pages) -----------------------------
+   Lapis glazed-brick field holding nav + hero, finished by the
+   rosette frieze, then the full-width seal band. Three registers,
+   stacked with no gaps. */
+.gate {
+  background-color: var(--lapis);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='28'%3E%3Cpath d='M0 13.5H56M0 27.5H56M28 0V14M0 14V28M56 14V28' stroke='rgba(255,255,255,0.05)' stroke-width='1' fill='none'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, #26619c 0%, var(--lapis) 45%, var(--lapis-deep) 100%);
+  padding-bottom: 1.8rem;
+}
+.gate .site-nav { border-bottom: none; margin-bottom: 0; }
+
+.frieze {
+  height: 18px;
+  background-color: var(--lapis-deep);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='18'%3E%3Ccircle cx='14' cy='9' r='4.2' fill='none' stroke='%23c9a227' stroke-width='1.1'/%3E%3Ccircle cx='14' cy='9' r='1.4' fill='%23c9a227'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  border-top: 1px solid var(--gold);
+  border-bottom: 1px solid var(--gold);
+}
+
+/* --- Seal band -------------------------------------------------------
+   A cylinder-seal impression: repeating ŠE KUG LU₂ (grain, silver,
+   person) in gold on dark fired clay. Full page width on gallery
+   pages; .on-paper variant bleeds across the blog sheet.
+   Usage: <div class="seal" aria-hidden="true">𒊺 𒆬 𒇽 𒊺 𒆬 𒇽 ...</div> */
+.seal {
+  font-family: "Noto Sans Cuneiform", serif;
+  background: var(--ground-deep);
+  color: var(--gold);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 1.05rem;
+  letter-spacing: 0.85em;
+  text-indent: 0.85em;
+  padding: 0.55rem 0;
+  user-select: none;
+}
+.seal.on-paper { margin: 2rem -3rem; }
+
+/* --- Proposition boxes ---------------------------------------------
+   Lapis frame, gold bar: a glazed brick in miniature.
+   <div class="proposition" data-name="Dear Bread">
+     <p>The claim.</p>
+     <p class="remark">The why.</p>
+   </div>                                                            */
+body { counter-reset: proposition; }
+
+.proposition {
+  border: 1px solid var(--lapis);
+  border-left: 4px solid var(--gold);
+  padding: 0.75rem 1rem 0.25rem 1rem;
+  margin: 1.5rem 0;
+}
+.proposition::before {
+  counter-increment: proposition;
+  content: "Proposition " counter(proposition) " (" attr(data-name) ").";
+  font-weight: bold;
+  font-style: normal;
+  color: var(--lapis);
+  display: block;
+  margin-bottom: 0.35rem;
+}
+.proposition p { font-style: italic; }
+.proposition .remark { font-style: normal; font-size: 0.92rem; color: #444; }
+
+/* --- Blog index as a Table of Contents ----------------------------- */
+.toc { list-style: none; padding-left: 0; }
+.toc li { margin-bottom: 1.1rem; }
+.toc .toc-num {
+  display: inline-block;
+  min-width: 2.2rem;
+  color: var(--gold-ink);
+  font-variant: small-caps;
+}
+.toc a { color: var(--lapis); }
+.toc .toc-excerpt { margin: 0.15rem 0 0 2.2rem; font-size: 0.92rem; color: #444; }
+
+/* --- Figures (your GIFs go here) ------------------------------------ */
+figure { margin: 1.5rem 0; text-align: center; }
+figure img { max-width: 100%; border: 1px solid var(--paper-edge); }
+figcaption { font-size: 0.9rem; color: #555; margin-top: 0.4rem; }
+
+/* --- Footer / misc --------------------------------------------------- */
+.footer-band {
+  background: var(--ground-deep);
+  color: rgba(245, 236, 220, 0.6);
+  text-align: center;
+  padding: 1rem 1rem 1.1rem 1rem;
+  font-size: 0.85rem;
+  font-variant: small-caps;
+  letter-spacing: 0.05em;
+}
+.footer-band a {
+  color: rgba(245, 236, 220, 0.85);
+  text-decoration: none;
+}
+.footer-band a:hover { color: var(--gold); }
+
+.site-footer { margin-top: 3rem; }
+.footnote-line { font-size: 0.85rem; color: #666; }
+.post-nav p { font-size: 0.95rem; }
+
+/* Keep display equations from overflowing on phones */
+.katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.2rem 0; }
+
+/* --- Small screens: sheet nearly edge-to-edge ----------------------- */
+@media (max-width: 640px) {
+  body {
+    margin: 1.6rem 0.6rem 2rem 0.6rem;
+    padding: 1.5rem 1.1rem;
+  }
+  body.gallery { margin: 0 auto; padding: 0; }
+  .seal { font-size: 0.95rem; letter-spacing: 0.6em; text-indent: 0.6em; }
+  .seal.on-paper { margin: 1.6rem -1.1rem; }
+  .sheet { padding: 1.4rem 1.1rem; margin: 1.6rem auto; }
+  .panel { margin: 1.6rem 0; }
+  .hero h1 { font-size: 2rem; }
+  .sticky-frieze { height: 14px; }
+}
+
+/* --- Print: it's a paper; let it be one ------------------------------ */
+@media print {
+  html { background: #fff; }
+  body { box-shadow: none; border: none; margin: 0 auto; }
+  .sticky-frieze, .site-nav, .site-footer, .footer-band { display: none; }
+}
