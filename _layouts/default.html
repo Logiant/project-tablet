@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
   <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | strip_newlines | truncate: 160 }}">
+  <meta property="og:title" content="Project Tablet Blog">
+  <meta property="og:description" content="A blog post about grain, silver, and power.">
+  <!-- <meta property="og:image" content="https://YOURSITE/assets/img/og-card.png"> -->
 
   <!-- latex.css: makes plain HTML look like a typeset LaTeX paper -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/latex.css/style.min.css">
@@ -44,6 +47,8 @@
   {% feed_meta %}
 
   <!-- Analytics: when ready, paste your GoatCounter snippet here. -->
+   <script data-goatcounter="https://lebeaver.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 </head>
 <body class="gallery">
 
