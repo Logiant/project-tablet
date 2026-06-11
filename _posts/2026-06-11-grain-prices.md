@@ -2,41 +2,7 @@
 title: "How About the Price of Grain in Mesopotamia?"
 date: 2026-06-11
 number: 1
-
 ---
-
-<!-- ==================================================================
-     This post is your authoring template. Things to know:
-
-     1. Front matter (above): title, date, number, excerpt. The date in
-        the FILENAME must match. Excerpts show on the blog index.
-
-     2. Math: inline math uses single dollars, like $G$ or $p$ — keep
-        inline math free of underscores/subscripts. Any equation with
-        subscripts or anything fancy goes in a display block wrapped in
-        a <div>, like the examples below. The <div> stops the Markdown
-        engine from mangling underscores before KaTeX sees them.
-
-     3. GIFs: drop files in /assets/img/ and use the <figure> pattern
-        shown at the bottom. Every post should open with one.
-
-      Examples:
-
-      <div>
-      $$\dot{G} = H(t) \;-\; c\,N \;-\; \delta G \;-\; B(t) \;-\; X(t)$$
-      </div>
-
-      <figure>
-      <img src="{{ '/assets/img/price-spike.gif' | relative_url }}"
-            alt="Grain price breaking the Temple's stability band after its reserves drain">
-      <figcaption>
-         Fig. 1 — The Temple defends the ±30% band until its reserves hit zero
-         (dashed line), then the engineered spike goes through.
-      </figcaption>
-      </figure>
-
-     ================================================================== -->
-
 
 I am building a strategy game with a materialistic core.
 Each city produces grain in the Private, Temple, and Crown markets at harvest time.
@@ -175,14 +141,35 @@ There is a third option, which will be the topic of the next devlog.
 Spike the price of grain, sell to the Private and Temple estates out of Crown stores, and accumulate all of the silver in the city.
 
 
-<!-- Example figure block — replace with a real GIF of the price chart:
+<!-- ==================================================================
+     This post is your authoring template. Things to know:
 
-<figure>
-  <img src="{{ '/assets/img/price-spike.gif' | relative_url }}"
-       alt="Grain price breaking the Temple's stability band after its reserves drain">
-  <figcaption>
-    Fig. 1 — The Temple defends the ±30% band until its reserves hit zero
-    (dashed line), then the engineered spike goes through.
-  </figcaption>
-</figure>
--->
+     1. Front matter (above): title, date, number, excerpt. The date in
+        the FILENAME must match. Excerpts show on the blog index.
+
+     2. Math: inline math uses single dollars, like $G$ or $p$ — keep
+        inline math free of underscores/subscripts. Any equation with
+        subscripts or anything fancy goes in a display block wrapped in
+        a <div>, like the examples below. The <div> stops the Markdown
+        engine from mangling underscores before KaTeX sees them.
+
+     3. GIFs: drop files in /assets/img/ and use the <figure> pattern
+        shown at the bottom. Every post should open with one.
+
+      Examples:
+
+      <div>
+      $$\dot{G} = H(t) \;-\; c\,N \;-\; \delta G \;-\; B(t) \;-\; X(t)$$
+      </div>
+
+      <figure>
+      <img src="{{ '/assets/img/price-spike.gif' | relative_url }}"
+            alt="Grain price breaking the Temple's stability band after its reserves drain">
+      <figcaption>
+         Fig. 1 — The Temple defends the ±30% band until its reserves hit zero
+         (dashed line), then the engineered spike goes through.
+      </figcaption>
+      </figure>
+
+     ================================================================== -->
+
