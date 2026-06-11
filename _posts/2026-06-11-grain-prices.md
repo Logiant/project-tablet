@@ -2,7 +2,7 @@
 title: "How About the Price of Grain in Mesopotamia?"
 date: 2026-06-11
 number: 1
-excerpt: "Each city produces grain in the Private, Temple, and Crown markets. Grain is produced at the harvest, and trickles down through consumption and waste. This leads to some interesting economic properties."
+
 ---
 
 <!-- ==================================================================
@@ -39,10 +39,9 @@ excerpt: "Each city produces grain in the Private, Temple, and Crown markets. Gr
 
 
 I am building a strategy game with a materialistic core.
-This means no magic numbers; cold, hard economics determine outcomes at every level.
-Every fundamental quantity, including grain, silver, and labor, is conserved and physically located in the world.
-In this blog post we will explore some interesting behavior that emerges when the Crown and Temple compete for resources in a city.
-
+Each city produces grain in the Private, Temple, and Crown markets at harvest time.
+The supply trickles down through consumption and waste, which leads to some interesting economic strategies.
+In this blog post we will explore how the pricing mechanism leads to a behavior bifurcation, and some interesting incentives that arise when the Crown and temple compete for resources in the Private market.
 
 ## The Math of Prices
 
@@ -70,7 +69,7 @@ So after harvest ($t=0$) we need enough grain to feed everyone, and just before 
 Supply is consumed evenly over $T$ ticks by the population, plus some monthly losses due to spoilage, rodents, etc.
 For each tick, the forecasted supply is,
 <div>
-  $$s(t) = q(t)\,\alpha^{(T-t)}$$,
+  $$s(t) = q(t)\,\alpha^{(T-t)},$$
 </div>
 where $q(t)$ is the current quantity of grain and $\alpha$ captures 1% loss per month
 <label for="sn-1" class="sidenote-toggle sidenote-number"></label>
@@ -78,7 +77,7 @@ where $q(t)$ is the current quantity of grain and $\alpha$ captures 1% loss per 
 <span class="sidenote">I compute losses monthly instead of per-tick, but this still captures the behavior on average.</span>.
 We can substitute all of these terms into our price formula to compute the price of grain (where $b=1$) at each tick,
 <div>
-   $$x(t) = \frac{T-t}{T\,q(t)\,\alpha^{(T-t)}} \, p$$.
+   $$x(t) = \frac{T-t}{T\,q(t)\,\alpha^{(T-t)}} \, p.$$
 </div>
 This gives us the price for $q(t)$, the quantity at the current tick.
 This is everything we need to compute market prices!
@@ -95,7 +94,7 @@ We can identify the fixed point of this system by substituting a constant $q$,
 </div>
 So, $q(t)$ exponentially decays to the fixed point $-K$,
 <div>
-   $$q(t) = (q_0 + K),\alpha^t - K.$$
+   $$q(t) = (q_0 + K),\\alpha^t - K.$$
 </div>
 Notice that plugging in $t=0$ recovers $q(t=0)=q_0$ and letting $t\to\infty$ givese $q(t\to\infty) = -K$, as we expect.
 
@@ -167,7 +166,7 @@ The Temple's is a self-sustaining economic agent, with a duty to stabilize grain
 If the player grants farmland to the Private market (a future devlog topic), they can keep production near $s(T)=0$.
 This also means the temple will buy low on good years, sell high on bad years, and accumulate silver--possibly eclipsing the wealth of the Crown!
 
-On the other hand, the player might allocate a large number of Private estates, dropping the price.
+On the other hand, the player might allocate a large number of Private market, dropping the price.
 This will drain the Temple's silver into the Private market, as they buy up under-priced grain to stabilize the price.
 This also incentivizes nearby cities to buy up the grain for export, freeing them up for growth, manufacturing, and warfare.
 This creates a real risk of economic dominance, where the city remains an agrarian backwater.
