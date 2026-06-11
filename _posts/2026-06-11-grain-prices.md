@@ -20,11 +20,12 @@ In this blog post we will explore how the pricing mechanism leads to a behavior 
      ============================================================ -->
 <figure class="panel" id="grain-sim">
    <label style="display:flex;align-items:center;gap:.5rem;">
-      Harvest: <input type="range" id="gs-q0" min="0.5" max="2.0"
+      Normalized Harvest: <input type="range" id="gs-q0" min="0.5" max="2.0"
         step="0.01" value="1.05" style="accent-color:#1f4e79;width:11rem;">
       <span id="gs-q0v" style="min-width:3.2ch;font-variant-numeric:tabular-nums;">1.05</span>
-      |
-      Spoilage: <input type="range" id="gs-loss" min="0" max="3"
+    </label>
+    <label style="display:flex;align-items:center;gap:.5rem;">
+      Spoilage Rate: <input type="range" id="gs-loss" min="0" max="3"
         step="0.25" value="1" style="accent-color:#1f4e79;width:7rem;">
       <span id="gs-lossv" style="min-width:2.2ch;font-variant-numeric:tabular-nums;">1</span>
    </label>
