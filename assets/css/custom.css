@@ -410,3 +410,9 @@ figcaption { font-size: 0.9rem; color: #555; margin-top: 0.4rem; }
   body { box-shadow: none; border: none; margin: 0 auto; }
   .sticky-frieze, .site-nav, .site-footer, .footer-band { display: none; }
 }
+
+/* Fix mobile sizing mismatch between sheet and header/footer */
+.sheet {
+  width: 100%;
+  box-sizing: border-box;
+}
