@@ -385,6 +385,11 @@ figcaption { font-size: 0.9rem; color: #555; margin-top: 0.4rem; }
 /* Keep display equations from overflowing on phones */
 .katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.2rem 0; }
 
+/* LaTex sidenotes need a white background to be visible */
+.sidenote {
+  background-color: #fff; 
+}
+
 /* --- Small screens: sheet nearly edge-to-edge ----------------------- */
 @media (max-width: 640px) {
   body {

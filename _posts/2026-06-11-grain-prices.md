@@ -70,9 +70,9 @@ So after harvest ($t=0$) we need enough grain to feed everyone, and just before 
 Supply is consumed evenly over $T$ ticks by the population, plus some monthly losses due to spoilage, rodents, etc.
 For each tick, the forecasted supply is,
 <div>
-  $$s(t) = q(t)\,\alpha^{(T-t)}$$
+  $$s(t) = q(t)\,\alpha^{(T-t)}$$,
 </div>
-where $q(t)$ is the quantity of grain and $\alpha$ captures 1% loss per month
+where $q(t)$ is the current quantity of grain and $\alpha$ captures 1% loss per month
 <label for="sn-1" class="sidenote-toggle sidenote-number"></label>
 <input type="checkbox" id="sn-1" class="sidenote-toggle" />
 <span class="sidenote">I compute losses monthly instead of per-tick, but this still captures the behavior on average.</span>.
@@ -80,7 +80,7 @@ We can substitute all of these terms into our price formula to compute the price
 <div>
    $$x(t) = \frac{T-t}{T\,q(t)\,\alpha^{(T-t)}} \, p$$.
 </div>
-This gives us the price for the $q(t)$, the quantity at the current tick.
+This gives us the price for $q(t)$, the quantity at the current tick.
 This is everything we need to compute market prices!
 
 ## A Price vs Time Curve
@@ -141,7 +141,7 @@ This is,
 </div>
 Rearranging yields,
 <div>
-   $$s(T) = K\left( K \alpha^{T-t}(1 + -\ln(\alpha)(T-t)) - K.  \right)$$
+   $$s(T) = K\left( K \alpha^{T-t}(1 + -\ln(\alpha)(T-t)) - K \right).$$
 </div>
 For $\alpha \approx 1$, the logarithm goes to zero and we get the condition,
 <div>
