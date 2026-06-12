@@ -6,7 +6,7 @@
   <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
   <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | strip_newlines | truncate: 160 }}">
   <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
-  <meta property="og:description" content="A blog post about grain, silver, and power.">
+  <meta property="og:description" content="{{ page.description | default: site.description }}">
   <meta property="og:image" content="https://logiant.github.io/project-tablet/assets/img/og-karum.png">
   <link rel="icon" type="image/x-icon" href="{{ '/assets/img/favicon.ico' | relative_url }}">
 
