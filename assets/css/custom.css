@@ -416,3 +416,7 @@ figcaption { font-size: 0.9rem; color: #555; margin-top: 0.4rem; }
   width: 100%;
   box-sizing: border-box;
 }
+
+
+/* Fix preposition numbering */
+html { counter-reset: proposition; }

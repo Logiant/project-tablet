@@ -78,62 +78,118 @@
   <main class="sheet flow-top">
 
     <figure class="panel">
-      <img src="assets/img/placeholder-trade-map.svg"
-           alt="A stylized trade network: your city on the river, a grain-dependent neighbor, a city specialized into wool, and nomads at the edge of the map.">
-      <figcaption>Three cities, one river, every dependency by design.</figcaption>
+      <img src="assets/img/og-karum.png"
+           alt="A stylized rendering of the word Karum on a decorative background.">
+      <!-- <figcaption>Three cities, one river, every dependency by design.</figcaption> -->
     </figure>
 
-    <h2>The Game</h2>
+    <h2>The Vision</h2>
     <p>
-      There is one substance in this game: physical stuff — grain, silver, labor,
-      goods — produced, moved, held, and consumed. No stability meters, no loyalty
-      points, no influence. Unrest is the cost of a garrison you must feed.
-      Diplomacy is who depends on whose grain. Legitimacy is the festival grain
-      the Crown can afford to give away.
-    </p>
-    <p>
-      And you are not the benevolent steward every other economy game makes you.
-      You are the <strong>Crown</strong> — the extractive apex of a Bronze Age
-      redistributive economy — pulling silver and labor toward the throne against
-      two rival estates at home (the <strong>Temple</strong> and the
-      <strong>private citizenry</strong>) and a map of rival cities abroad.
-      Whenever a conventional strategy game would reach for a magic number, this
-      one reaches for grain, silver, or labor instead. Everything else falls out
-      of taking that seriously.
+      Kārum is a materialist vision for grand strategy games.
+      Every resource lives physically in the world: grain, metal, silver, and labor.
+      There are no magic numbers, no war score or loyalty points, and no influence.
+      Every action and consequence is an economic calculation driven by the distribution of material.
+      The Kārum vision is that every grand strategy system--trade, diplomacy, war--can grow from a purely materialist base.
     </p>
 
-    <figure class="panel">
-      <img src="assets/img/placeholder-price-spike.svg"
-           alt="A grain price chart: the price held inside the Temple's stability band until the Temple's reserves drain, then an engineered spike breaks through.">
-      <figcaption>Drain the Temple's reserves, then the spike goes through.</figcaption>
-    </figure>
+    <p>
+      In Kārum, you do not play the benevolent steward of a city or the "spirit of a nation" moving through history.
+      You play <strong>The Crown</strong>, one of the Three Estates jockeying for control of the Bronze Age.
+      It is critical to maintain a private balance of power with <strong>The Temple</strong> and <strong>Private markets</strong> at home,
+      but don't grow complacent to the threat of nearby cities.
+    </p>
 
-    <h2>Things No Other Strategy Game Rewards</h2>
 
-    <div class="proposition" data-name="Dear Bread">
-      <p>Engineer a high grain price in your own city — on purpose.</p>
+    <h2>The Unsolved Problems of Strategy Games</h2>
+
+    Strategy games have a rich history, yet there is no shortage of challenging unsolved problems.
+    Kārum promises to address these problems through its materialist framework.
+    Each of these problems, and Kārum's materialist solution, are outlined in the Kārum propositions.
+
+
+    <div class="proposition" data-name="Giving land away">
+      <p>The Crown is incentivized to privative farmland to releases manpower for construction projects and war.</p>
       <p class="remark">
-        The Crown cannot tax barter. Forcing transactions at a dear price is how
-        the throne liquefies wealth held in kind by the Temple and the private
-        sector. Scarcity is the sovereign's revenue event.
+        Each city has a labor pool $l$ that the crown taxes at a fraction of their time, $\alpha$.
+        This corvee tax is $6$-$8$ weeks per year total, so $\alpha\approx 0.125$.
+        Moving $y$ farmers from the corvee to the private labor pool yields,
+        </p>
+        <div>
+          $$ (l-y)\alpha + y = l\alpha + (1-\alpha)y. $$
+        </div>
+      <p>
+        Thus, each privatized worker frees up $(1-\alpha)$ workers for the crown; at the cost of relinquishing control over the grain supply.
       </p>
     </div>
 
-    <div class="proposition" data-name="The Charter">
-      <p>Privatize your own farmland to afford an army.</p>
-      <p class="remark">
-        Crown farms consume the corvée labor an army needs. Chartering them frees
-        that labor — at the price of your grain reserve and food security. The
-        same lever flips from suicidal to obvious as your economy matures.
-      </p>
-    </div>
 
     <div class="proposition" data-name="The Specialization Trap">
-      <p>Dominate a neighbor by selling to them — generously.</p>
+      <p>Dominate a neighbor by generously trading with them.</p>
       <p class="remark">
-        Flood a grain-rich neighbor with your cheap textiles and they never build
-        workshops of their own. They feel prosperous; they are arrested. The cage
-        only becomes visible the day you cut the flow.
+        When grain is expensive, traders will automatically flood a grain-rich neighbor with cheap textiles and buy up their cheap grain.
+        Each trader has a total weight capacity $w$, and the total silver value is preserved via, 
+       </p> 
+       <div>
+          $$ p_t w = p_g w + s \to \frac{s}{w} = (p_t - p_g), $$
+        </div>
+        <p> 
+         i.e., for a positive price difference the trader extracts a quantity of silver $s$.
+         Thus, a specialized city producing high-value goods will automatically centralize all silver in the region. 
+      </p>
+    </div>
+
+
+ <div class="proposition" data-name="Wagon Paradox as Logistics">
+      <p>Goods are transported physically in the world, on donkeys that consume the grain they carry.</p>
+      <p class="remark">
+        Each donkey carries a bushel of goods with weight $w$ kg and must be fed $r$ kg of grain per day.
+        This means, fully loaded with grain, the donkey can travel at most,
+      </p>
+        <div>
+          $$ t = \frac{w}{r} $$
+        </div>
+      <p>
+        before eating their entire load,
+        This puts a hard limit on how far goods can travel from any city or resupply point, enriching cities central to the trade network.
+      </p>
+    </div>
+
+
+    <div class="proposition" data-name="Military Upkeep">
+      <p>Soldiers are a resource sink fed directly from the player's stockpiles.</p>
+      <p class="remark">
+        Militia are drawn from the ranks of the corvee levy and supplied with weapons and armor by the crown.
+        This means that military excursions are strictly limited by logistics range and the crown's capability to move goods between cities.
+        Active militia are also not farming or manufacturing, further straining the economy.
+        The economic impact of militia-soldiers can be mitigated by hiring mercenaries, if the crown has sufficient silver to keep them paid.        
+      </p>
+    </div>
+
+
+
+    <div class="proposition" data-name="Enforcing Tribute from Vassals">
+      <p>How does a city extract silver from an equally strong neighbor?</p>
+      <p class="remark">
+        When you win a battle, you get a one-time boost of material from looting.
+        But how do you enforce tribute?
+        As soon as your army returns home, the losing side can immediately stop sending tribute.
+        We resolve this as a material problem; confiscating the defender's armaments leaves them defenseless, and ensures they won't be able to raise an army any time soon.
+        Stationing soldiers in the defeated city's trade house ensures that the tribute will keep flowing, at the cost of actively maintaining them.
+        This turns tribute extraction into a cost-benefit question for the attacker, and a combat feasibility question for the defender.
+      </p>
+    </div>
+
+
+
+    <div class="proposition" data-name="Rational Diplomacy">
+      <p>Diplomacy and conflict are driven by economic decisions, not opinion modifiers.</p>
+      <p class="remark">
+        The flow of material defines the economic power of every state.
+        Tariffs can protect your market and bring silver into your economy, at the expense of your neighbors and trade partners.
+        This turns conflict into an economic question: Is the cost of supplying an army more or less than the value of opening up a trade route?
+        What about the cost of seizing a neighbor's grain during a famine?
+        Raiding a neighbor's tin supplies?
+        This means economic calculus, not opinion modifiers, will drive AI behavior.
       </p>
     </div>
 
