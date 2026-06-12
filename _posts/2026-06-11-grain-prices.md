@@ -7,7 +7,7 @@ number: 1
 I am building a strategy game with a materialist core.
 Each city produces grain in the Private market and Temple/Crown estates at harvest time.
 The supply trickles down through consumption and waste, which leads to some interesting economic strategies.
-In this blog post we will explore how the pricing mechanism leads to a behavior bifurcation, and some interesting incentives that arise when the Crown and temple compete for resources in the Private market.
+In this blog post we will explore how the pricing mechanism leads to a behavior bifurcation, and how that can affect the balance of power both internally and externally.
 
 <!-- ============================================================
      Interactive figure: grain price over one year.
@@ -154,21 +154,21 @@ In this blog post we will explore how the pricing mechanism leads to a behavior 
 })();
 </script>
 
-Let's call the price of grain $x$, in units of *annual consumption per capita*.
+Let's call the price of grain $x,$ in units of *annual consumption per capita*.
 This means one laborer will consume one unit of grain every year.
-I compute the price of any good using a symmetric hyperbola of supply $s$ and demand $d$,
+I compute the price of any good using a symmetric hyperbola of supply $s$ and demand $d,$
 <div>
 $$x = b\,\frac{d}{s},$$
 </div>
-where $b$ is the *base price* (in this case, $1$), and $d$ is the current demand.
-Now, if supply ($s$) equals demand ($d$), we recover the base price ($x=b$); as the supply increases (decreases) the price goes down (up).
+where $b$ is the *base price* (in this case, $1$ unit of silver buys one year of grain), and $d$ is the current demand.
+Now, if supply equals demand, we recover the base price; as the supply increases (decreases) the price goes down (up).
 
 
 ## Computing Grain Price
 
-Grain is a unique resource, because it's produced all at once (i.e., during harvest) and consumed throughout the year. 
+Grain is a unique resource, because it's produced all at once (i.e., during harvest) and consumed slowly. 
 So we don't just want enough grain *now*, we need the stores to last until the end of the year.
-Commodities are processed in "ticks" throughout the year, so we can compute the demand as a function of the current tick $t$,
+Commodities are processed in "ticks" throughout the year, so we can compute the demand as a function of the current tick $t,$
 <div>
    $$d(t) = \frac{T-t}{T} \, n.$$
 </div>
@@ -180,32 +180,33 @@ For each tick, the forecasted supply is,
 <div>
   $$s(t) = q(t)\,\alpha^{(T-t)},$$
 </div>
-where $q(t)$ is the current quantity and $\alpha$ captures 1% loss per month
-<label for="sn-1" class="sidenote-toggle sidenote-number"></label>
-<input type="checkbox" id="sn-1" class="sidenote-toggle" />
-<span class="sidenote">I compute losses monthly instead of per-tick, but this still captures the behavior on average.</span>.
+where $q(t)$ is the current quantity and $\alpha$ captures 1% loss per month<!--
+--><label for="sn-1" class="sidenote-toggle sidenote-number"></label><!--
+--><input type="checkbox" id="sn-1" class="sidenote-toggle" /><!--
+--><span class="sidenote">I compute losses monthly instead of per-tick, but this still captures the behavior on average.</span>.
 We can substitute all of these terms into our price formula to compute the price of grain (where $b=1$) at each tick,
 <div>
    $$x(t) = \frac{T-t}{T\,q(t)\,\alpha^{(T-t)}} \, n.$$
 </div>
-This gives us the price for $q(t)$, the quantity at the current tick.
+This gives us the price for $q(t),$ the quantity at the current tick.
 This is everything we need to compute live market prices!
 
 ## A Price vs Time Curve
 
-If we want a price curve over time, we need the dynamics of $q(t)$,
+If we want a price curve over time, we need the dynamics of $q(t).$
+From tick $t_{k}$ to the next at $t_{k+1}$, exactly $\frac{n}{T}$ grain is consumed,
 <div>
    $$q(t_{k+1}) = \left(q(t_k) - \frac{n}{T}\right)\alpha.$$
 </div>
-We can identify the fixed point of this system by substituting a constant $q$,
+We can identify the fixed point of this system by substituting a constant $q,$
 <div>
     $$q = \left(q - \frac{n}{T}\right)\alpha \implies q = -\frac{\alpha n}{T(1-\alpha)} := -K.$$
 </div>
-So, $q(t)$ exponentially decays to the fixed point $-K$,
+Because of the problem structure, $q(t)$ exponentially decays from an initial value $q_0$ at harvest to the fixed point $-K,$
 <div>
    $$q(t) = (q_0 + K)\,\alpha^t - K.$$
 </div>
-Notice that plugging in $t=0$ recovers $q(t=0)=q_0$ and letting $t\to\infty$ gives $q(t\to\infty) = -K$, as we expect.
+Notice that plugging in $t=0$ recovers $q(t=0)=q_0$ and letting $t\to\infty$ gives $q(t\to\infty) = -K,$ as we expect.
 
 Finally, we can compute some useful price quantities.
 The final value of $q$ is,
@@ -221,8 +222,12 @@ Finally, the grain price curve is,
 <div>
    $$x(t) = \frac{T-t}{T\Big(q(T) + K(1-\alpha^{(T-t)})\Big)}\,n.$$
 </div>
-Note that, since $q(t)$ can't go negative, I saturate $q(T)$ at a minimum of $0$, and impose a maximum price bound so that $x(t)$ doesn't shoot to infinity.
-
+We want $q(t)$ to be well-behaved, so in-game I saturate it at a minimum of zero.
+I also saturate $x(t)$ at a maximum price, so that the price is never actually infinity; this would cause problems downstream.
+This is exactly the curve in the interactive price calculator at the top of the post<!--
+--><label for="sn-1" class="sidenote-toggle sidenote-number"></label><!--
+--><input type="checkbox" id="sn-1" class="sidenote-toggle" /><!--
+--><span class="sidenote">This isn't necessarily the *market* price, it's what a royal scribe or treasurer would record. This fits directly into the Three Estates economic model.</span>.
 
 ## Price Regimes
 
@@ -231,57 +236,74 @@ So why derive it?
 It turns out the curve has some interesting dynamics that the player can exploit.
 
 To identify the regimes, we will take a time derivative to see if prices go up or down.
-We can compute the time derivative of $x$, $\dot{x}$, with the chain rule,
+We can compute the time derivative $\dot{x}$ with the chain rule,
 <div>
-  $$\dot{x} = \frac{\dot{d}{s} - d\dot{s}}{s^2}, $$
+  $$\dot{x} = \frac{\dot{d}\,{s} - d\,\dot{s}}{s^2}, $$
 </div>
-where $\dot{d} = -\frac{n}{T}$, and $\dot{s} = K\ln(\alpha)\alpha^{T-t}$.
-Then this simplifies to,
+where $\dot{d} = -\frac{n}{T},$ and $\dot{s} = K\ln(\alpha)\alpha^{T-t}.$
+This simplifies to,
 <div>
   $$\dot{x} = -\frac{n}{T} \frac{s + (T-t)K\ln(\alpha)\alpha^{T-t}}{s(t)^2}. $$
 </div>
 
 
-We want to compute when $\dot{x} = 0$, where the price of grain is constant, so we can understand when it will rise or fall.
-This is,
+We want to compute when $\dot{x} = 0,$ where the price of grain is constant, so we can understand when it will rise or fall.
+This can only happen when the numerator is zero,
 <div>
-   $$\dot{x} = 0 \to K(-\ln(\alpha))(T-t)\alpha^{T-t} = s(t) = s(T) + K - K\alpha^{T-t}.  $$
+   $$\dot{x} = 0 \to -K\ln(\alpha)(T-t)\alpha^{T-t} = s(t) = s(T) + K(1-\alpha^{T-t}).  $$
 </div>
 Rearranging yields,
 <div>
-   $$s(T) = K\left( \alpha^{T-t}(1 - \ln(\alpha)(T-t)) - 1 \right).$$
+   $$s(T) = K\left( \alpha^{T-t}\left(1 - \ln(\alpha)(T-t)\right) - 1 \right).$$
 </div>
-For $\alpha \approx 1$, the logarithm goes to zero and we get the condition,
+For $\alpha \approx 1,$ the logarithm goes to zero and $\alpha^{T-t} \approx 1$.
+This yields the condition,
 <div>
    $$s(T) \approx 0.$$
 </div>
-So, when $s(T) = 0$ the price is approximately constant--note that it will still increase, since spoilage will decrease supply.
+So, when $s(T) = 0$ the price is approximately constant.
+Note that it will still increase, since spoilage will decrease supply throughout the year.
 
-This also means that when $s(T) < 0$, we get a strictly positive $\dot{x}$ and we expect prices to increase at every tick.
+This also means that when $s(T) < 0,$ we get a strictly positive $\dot{x}$, and we expect prices to increase at every tick.
 In a bad harvest, the prices start high and continue to climb as more grain is consumed.
 
-Conversely, if $s(T) > 0$, we expect a strictly negative $\dot{x}$ as supply eclipses demand all year.
-Grain prices start low, and they continue to fall as we approach the next harvest, which adds even more grain to the market.
+Conversely, if $s(T) > 0,$ we expect a strictly negative $\dot{x}$ as supply eclipses demand all year.
+Grain prices start low, and they continue to fall as we approach the next harvest, which will add even more grain to the market.
+
+
+We will look at how these two regimes can drive trade between grain-rich and grain-poor cities in a future devlog.
+
 
 ## So what?
 
 As the Crown, the player can allocate labor to growing crops, among other duties.
-This gives them some level of control over $s(T)$, which determines how grain prices play out each year.
-Many strategy games encourage the player to sit in the $s(T) >> 0$ regime: produce excess grain, keep the population fed, and export excess grain for silver.
+This gives them some level of control over $s(T)$ through the harvest, via 
+<div>
+$$\begin{align*}
+  s(T) &= q(T) + K(1-\alpha^0) = q(T), \\
+  s(0) &= q(T) + K(1-\alpha^{T}) = s(T) + K(1-\alpha^T),
+\end{align*}$$
+</div>
+where $\alpha$ and $K$ are known quantities.
+This determines how grain prices play out each year.
+Many strategy games encourage the player achieve $s(T) \gt \gt 0$: produce excess grain, keep the population fed, and export excess grain for silver.
 Karum is a game built inside an economic engine, so suppressing grain prices can have unexpected consequences.
 
 Each city in Karum is split into the *Three Estates*: the Crown, controlled by the player, alongside the Temple and the Private market.
-The Temple is a self-sustaining economic agent, with a duty to stabilize grain prices.
-If the player grants modest farmland to the Private market (a future devlog topic), they can keep grain levels near $s(T)=0$.
-This also means the temple will buy low on good years, sell high on bad years, and accumulate silver--possibly eclipsing the wealth of the Crown!
+All three can produce grain (and other commodities).
+The Temple is a self-sustaining economic agent with a duty to stabilize grain prices.
+If the player grants modest farmland to the Private market (a future devlog topic), they can keep grain levels near $s(T)=0$ automatically.
+This also means the temple will buy low on good years, sell high on bad years, and accumulate silver.
+The Temple's growing wealth could easily eclipse the Crown!
 
 On the other hand, the player may significantly over-allocate farm labor to the Private market, dropping the price of grain.
-This will drain the Temple's silver as it buys up cheap grain from the Private market to stabilize the price.
+This will drain the Temple's silver as it buys up cheap grain to stabilize the price.
 This also incentivizes nearby cities to buy up the grain for export, freeing their own labor pools for growth, manufacturing, and warfare.
-This creates a real risk of external economic domination, where a city with cheap grain becomes over-reliant on exports and becomes an agrarian backwater.
+This creates a real risk of external economic domination, where a city with cheap grain becomes over-reliant on exports and develops into an agrarian backwater.
 
 There is a third option, which will be the topic of the next devlog.
-Spike the price of grain, sell to the Private and Temple estates out of Crown stores, and accumulate all of the silver in the city for yourself.
+Allocate very little Private farm labor and spike the grain demand beyond what the Temple can provide.
+This will require both the Private market and Temple to purchase grain from the Crown, accumulating all of their silver in your pocket.
 
 
 <!-- ==================================================================

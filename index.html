@@ -85,16 +85,16 @@
 
     <h2>The Vision</h2>
     <p>
-      Kārum is a materialist vision for grand strategy games.
+      My vision for Kārum is a radically materialist grand strategy game.
       Every resource lives physically in the world: grain, metal, silver, and labor.
       There are no magic numbers, no war score or loyalty points, and no influence.
       Every action and consequence is an economic calculation driven by the distribution of material.
-      The Kārum vision is that every grand strategy system--trade, diplomacy, war--can grow from a purely materialist base.
+      My ambition with Kārum is to have every game system &ndash; trade, diplomacy, war, unrest &ndash; built on top of this materialist base.
     </p>
 
     <p>
-      In Kārum, you do not play the benevolent steward of a city or the "spirit of a nation" moving through history.
-      You play <strong>The Crown</strong>, one of the Three Estates jockeying for control of the Bronze Age.
+      In Kārum, you do not play the benevolent steward of a city, the spirit of a nation, or an omniscient strategist.
+      You play <strong>The Crown</strong>, one of the Three Estates jockeying for control of Bronze Age cities.
       It is critical to maintain a private balance of power with <strong>The Temple</strong> and the <strong>Private market</strong> at home,
       but don't grow complacent about the threat of nearby cities.
     </p>
@@ -104,27 +104,27 @@
 
     Strategy games have a rich history, yet there is no shortage of challenging unsolved problems.
     Kārum promises to address these problems through its materialist framework.
-    Each of these problems, and Kārum's materialist solution, are outlined in the Kārum propositions.
+    Several of these problems, and Kārum's materialist solution, are outlined in the Kārum propositions.
 
 
-    <div class="proposition" data-name="Giving land away">
-      <p>The Crown is incentivized to reduce their power by privatizing farmland.</p>
+    <div class="proposition" data-name="Economics of Privatization">
+      <p>Why would a leader ever willing reduce their own economic power by privatizing farmland?</p>
       <p class="remark">
-        Each city has a labor pool $l$ that the crown taxes at a fraction of their time, $\alpha$.
-        This corvee tax is $6$-$8$ weeks per year total, so $\alpha\approx 0.125$.
-        Transferring $y$ farmers from the corvee to the private labor pool yields,
+        Each city has a corvee labor pool $l$ that the Crown taxes at a fraction of their time, $\alpha.$
+        This constitutes $6$-$8$ weeks per year total per worker, but can change based on the Crown's policies.
+        Transferring $y$ farmers from the corvee labor pool to the Private market changes the available labor by,
         </p>
         <div>
           $$ (l-y)\alpha + y = l\alpha + (1-\alpha)y. $$
         </div>
-      <p>
-        Thus, each privatized worker frees up $(1-\alpha)$ workers for the crown; at the cost of relinquishing control over the grain supply.
+      <p class="remark">
+        Thus, each privatized farmer frees up $(1-\alpha)$ units of labor for the crown; at the cost of relinquishing control over the grain supply.
       </p>
     </div>
 
 
-    <div class="proposition" data-name="The Specialization Trap">
-      <p>Dominate a neighbor by generously trading with them.</p>
+    <div class="proposition" data-name="Domination through Trade">
+      <p>Why specialize cities instead of building one of every building in each?</p>
       <p class="remark">
         When grain is expensive, traders will automatically flood a grain-rich neighbor with cheap textiles and buy up their cheap grain.
         Each trader has a total weight capacity $w$, and the total silver value is preserved via, 
@@ -132,31 +132,32 @@
        <div>
           $$ p_t w = p_g w + s \to \frac{s}{w} = (p_t - p_g), $$
         </div>
-        <p> 
-         i.e., for a positive price difference the trader extracts a quantity of silver $s$.
-         Thus, a specialized city producing high-value goods will automatically centralize all silver in the region. 
+      <p class="remark">
+         i.e., for a positive price difference the trader extracts a quantity of silver $s.$
+         Thus, a specialized city producing scarce goods will automatically centralize the regional silver supply.
       </p>
     </div>
 
 
- <div class="proposition" data-name="Wagon Paradox as Logistics">
-      <p>Goods are transported physically in the world, on donkeys that consume the grain they carry.</p>
+ <div class="proposition" data-name="The Wagon Paradox">
+      <p>Why not have every city just produce the most expensive goods?</p>
       <p class="remark">
-        Each donkey carries a bushel of goods with weight $w$ kg and must be fed $r$ kg of grain per day.
-        This means, fully loaded with grain, the donkey can travel at most,
+        Goods travel through the world on the backs of donkies.
+        Each donkey can carry goods with weight $w$ kg and must be fed $r$ kg of grain per day.
+        This means, fully loaded with grain, each donkey can travel at most,
       </p>
         <div>
           $$ t = \frac{w}{r} $$
         </div>
-      <p>
+      <p class="remark">
         before eating their entire load.
-        This puts a hard limit on how far goods can travel from any city or resupply point, enriching cities central to the trade network.
+        This puts a hard limit on how far goods can travel from any city or resupply point, which amplifies cities central to the trade network.
       </p>
     </div>
 
 
     <div class="proposition" data-name="Military Upkeep">
-      <p>Soldiers are a resource sink fed directly from the player's stockpiles.</p>
+      <p>Why not swarm a neighbor with militia and go into mild debt early?</p>
       <p class="remark">
         Militia are drawn from the ranks of the corvee levy and supplied with weapons and armor by the crown.
         This means that military excursions are strictly limited by logistics range and the crown's capability to move goods between cities.
@@ -182,14 +183,14 @@
 
 
     <div class="proposition" data-name="Rational Diplomacy">
-      <p>Diplomacy and conflict are driven by economic decisions, not opinion modifiers.</p>
+      <p>Why would two powers willingly enter a conflict over to paint the map?</p>
       <p class="remark">
+        Diplomacy and conflict are driven by economic decisions, not opinion modifiers.
         The flow of material defines the economic power of every state.
         Tariffs can protect your market and bring silver into your economy, at the expense of your neighbors and trade partners.
         This turns conflict into an economic question: Is the cost of supplying an army more or less than the value of opening up a trade route?
         What about the cost of seizing a neighbor's grain during a famine?
         Raiding a neighbor's tin supplies?
-        This means economic calculus, not opinion modifiers, will drive AI behavior.
       </p>
     </div>
 
