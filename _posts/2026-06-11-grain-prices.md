@@ -286,14 +286,14 @@ $$\begin{align*}
 </div>
 where $\alpha$ and $K$ are known quantities.
 This determines how grain prices play out each year.
-Many strategy games encourage the player achieve $s(T) \gt \gt 0$: produce excess grain, keep the population fed, and export excess grain for silver.
-Karum is a game built inside an economic engine, so suppressing grain prices can have unexpected consequences.
+Many strategy games encourage the player to achieve $s(T) \gt \gt 0$: produce excess grain, keep the population fed, and export excess grain for silver.
+Kārum is a game built inside an economic engine, so suppressing grain prices can have unexpected consequences.
 
-Each city in Karum is split into the *Three Estates*: the Crown, controlled by the player, alongside the Temple and the Private market.
+Each city in Kārum is split into the *Three Estates*: the Crown, controlled by the player, alongside the Temple and the Private market.
 All three can produce grain (and other commodities).
 The Temple is a self-sustaining economic agent with a duty to stabilize grain prices.
 If the player grants modest farmland to the Private market (a future devlog topic), they can keep grain levels near $s(T)=0$ automatically.
-This also means the temple will buy low on good years, sell high on bad years, and accumulate silver.
+This also means the Temple will buy low on good years, sell high on bad years, and accumulate silver.
 The Temple's growing wealth could easily eclipse the Crown!
 
 On the other hand, the player may significantly over-allocate farm labor to the Private market, dropping the price of grain.
