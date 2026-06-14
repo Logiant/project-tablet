@@ -22,8 +22,8 @@ studio_url: "https://www.wyrcethrang.com"
 #   -> set:  baseurl: ""
 #            url: "https://projecttablet.com"
 # ------------------------------------------------------------------
-baseurl: "/project-tablet"
-url: "https://logiant.github.io"
+baseurl: ""
+url: "https://karum.dev/"
 
 # ------------------------------------------------------------------
 # Build settings — GitHub Pages builds this automatically on push.
