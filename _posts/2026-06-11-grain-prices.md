@@ -180,11 +180,12 @@ For each tick, the forecasted supply is,
 <div>
   $$s(t) = q(t)\,\alpha^{(T-t)},$$
 </div>
-where $q(t)$ is the current quantity and $\alpha$ captures 1% loss per month<!--
+where $q(t)$ is the current quantity and $\alpha$ captures 1% loss per month.
+We can substitute all of these terms into our price formula to estimate<!--
 --><label for="sn-1" class="sidenote-toggle sidenote-number"></label><!--
 --><input type="checkbox" id="sn-1" class="sidenote-toggle" /><!--
---><span class="sidenote">I compute losses monthly instead of per-tick, but this still captures the behavior on average.</span>.
-We can substitute all of these terms into our price formula to compute the price of grain (where $b=1$) at each tick,
+--><span class="sidenote">This is an over-estimate that assumes all grain is eaten at the final time step, but it's not too unreasonable.</span>
+the price of grain (where $b=1$) at each tick,
 <div>
    $$x(t) = \frac{T-t}{T\,q(t)\,\alpha^{(T-t)}} \, n.$$
 </div>
