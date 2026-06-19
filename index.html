@@ -77,42 +77,69 @@
 
   <main class="sheet flow-top">
 
-    <figure class="panel">
-      <img src="assets/img/og-karum.png"
+    <img src="assets/img/og-karum.png"
            alt="A stylized rendering of the word Karum on a decorative background.">
-      <!-- <figcaption>Three cities, one river, every dependency by design.</figcaption> -->
+
+
+    <h2>What is Kārum?</h2>
+    <p>
+      Kārum is a materialist grand strategy game at a small scale.
+      Play as <strong>The Crown</strong>, one of the Three Estates in an ancient mesopotamian city.
+      Power is measured in grain and silver, and you will need to compete with <strong>The Temple</strong> and the <strong>Private market</strong> for dominance.
+      Allocate corvée labor; manage the growth of crops, the production of goods, and the construction of great architectural works.
+      Most of all, preserve the balance of power &ndash; a strong market and Temple are exactly what you will need to overcome your neighbors.
+    </p>
+
+    <p>
+      Grow into a local then regional power, subduing your neighbors by economic and military means.
+      Entrepreneurial traders form trade routes automatically, wherever there is profit to be made.
+      A city's innate strength is tied to geography &ndash; will you lead a trading empire, build an industrial center, or corner the luxury textile market?
+      Flood a neighbors with cheap goods to cripple their domestic production, or with cheap grain to make them dependent on you.
+      Set tariffs and embargoes to control and profit from trade &ndash; but beware: resource shortages can quickly devolve into armed conflict.
+      As a last resort, press your corvée into a militia and subdue troublesome neighbors by force.
+    </p>
+
+    <figure class="panel">
+      <video class="media" autoplay loop muted playsinline
+           poster="assets/img/caravan-poster.png">
+          <source src="assets/clips/caravan.mp4" type="video/mp4">
+      </video>
+      <figcaption>A caravan autonomously trades goods for grain at a huge profit.</figcaption>
     </figure>
+    
+
+
+
 
     <h2>The Vision</h2>
     <p>
       My vision for Kārum is a radically materialist grand strategy game.
       Every resource lives physically in the world: grain, metal, silver, and labor.
-      There are no magic numbers, no war score or loyalty points, and no influence.
+      There are no magic numbers: no war score, no loyalty points, and no influence.
       Every action and consequence is an economic calculation driven by the distribution of material.
-      My ambition with Kārum is to have every game system &ndash; trade, diplomacy, war, unrest &ndash; built on top of this materialist base.
+      My ambition with Kārum is to have every game system &ndash; trade, diplomacy, war, unrest &ndash; to grow from this materialist foundation.
     </p>
 
     <p>
       In Kārum, you do not play the benevolent steward of a city, the spirit of a nation, or an omniscient strategist.
       You play <strong>The Crown</strong>, one of the Three Estates jockeying for control of Bronze Age cities.
-      It is critical to maintain a private balance of power with <strong>The Temple</strong> and the <strong>Private market</strong> at home,
-      but don't grow complacent about the threat of nearby cities.
+      It is critical to maintain a private balance of power with <strong>The Temple</strong> and the <strong>Private market</strong> at home, but don't grow complacent about the threat of nearby cities.
     </p>
 
 
     <h2>Unsolved Problems of Strategy Games</h2>
 
-    Strategy games have a rich history, yet there is no shortage of challenging unsolved problems.
-    Kārum promises to address these problems through its materialist framework.
-    Several of these problems, and Kārum's materialist solution, are outlined in the Kārum propositions.
-
+    <p>Strategy games have a rich history, yet there is no shortage of challenging unsolved gameplay problems.
+    Kārum promises to address many of these through its materialist framework.
+    A few of these problems, and Kārum's materialist solution, are outlined in the Kārum propositions.
+    </p>
 
     <div class="proposition" data-name="Dear Bread">
-      <p>Why would the landowning class purposely drive the price of bread up?</p>
+      <p>Why would The Crown purposely drive the price of bread up?</p>
       <p class="remark">
         Most strategy games encourage flooding your city with cheap grain to keep the population fed and happy.
         Kārum splits each city between three estates (the Crown, the Temple, and the Private market) that hold much of their wealth in grain.
-        The crown cannot tax barter, so they end up with a surplus of cheap grain.
+        The Crown cannot tax barter, so they end up with a surplus of cheap grain.
         By engineering a grain shortage, the Crown can liquidate their grain stores in the Private market to enrich their purse.
       </p>
     </div>
@@ -120,15 +147,15 @@
     <div class="proposition" data-name="Economics of Privatization">
       <p>Why would a leader ever willingly reduce their own economic power by privatizing farmland?</p>
       <p class="remark">
-        Each city has a corvee labor pool $l$ that the Crown taxes at a fraction of their time, $\lambda.$
+        Each city has a corvée labor pool $l$ that the Crown taxes at a fraction of their time, $\lambda.$
         This constitutes $6$-$8$ weeks per year total per worker, but can change based on the Crown's policies.
-        Transferring $y$ farmers from the corvee labor pool to the Private market changes the available labor by,
+        Transferring $y$ farmers from the corvée labor pool to the Private market changes the available labor by,
         </p>
         <div>
           $$ (l-y)\lambda + y = l\lambda + (1-\lambda)y. $$
         </div>
       <p class="remark">
-        Thus, each privatized farmer frees up $(1-\lambda)$ units of labor for the crown; at the cost of relinquishing control over the grain supply.
+        Thus, each privatized farmer frees up $(1-\lambda)$ units of labor for The Crown; at the cost of relinquishing control over the grain supply.
       </p>
     </div>
 
@@ -152,7 +179,7 @@
  <div class="proposition" data-name="The Wagon Paradox">
       <p>Why not have every city just produce the most expensive goods?</p>
       <p class="remark">
-        Goods travel through the world on the backs of donkies.
+        Goods travel through the world on the backs of donkeys.
         Each donkey can carry goods with weight $w$ kg and must be fed $r$ kg of grain per day.
         This means, fully loaded with grain, each donkey can travel at most,
       </p>
@@ -197,9 +224,9 @@
     <div class="proposition" data-name="The Fragile Snowball">
       <p>What stops a strong state from conquering every neighbor?</p>
       <p class="remark">
-        Military units are physical entities in the world that create a constant drain on a state's stockpiles: militia are drawn from the corvee levy and armed by the crown.
+        Military units are physical entities in the world that create a constant drain on a state's stockpiles: militia are drawn from the corvée levy and armed by The Crown.
         Every soldier in the field is a farmer or worker producing no economic value.
-        Victory doesn't end the cost; each conquest must be garrisoned, and garrisons are supplied by the crown.
+        Victory doesn't end the cost; each conquest must be garrisoned, and garrisons are supplied by The Crown.
         This bounds conquest by the Crown's production and logistics.
         A wide empire provides many opportunities for famine and disease to cascade inward.
         Mercenaries can shift the burden from labor to silver, but they must still be fed and supplied.
