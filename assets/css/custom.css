@@ -436,3 +436,4 @@ main p {
 
 /* Fix preposition numbering */
 html { counter-reset: proposition; }
+html { counter-reset: proposition sidenote-counter; }
