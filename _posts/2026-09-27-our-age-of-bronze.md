@@ -233,7 +233,7 @@ That corresponds to a base price of $75$ silver, or about $5\%$ of a city's star
 
 A third option is to adjust the price formula and try to satisfy demand over $t$ ticks via,
 <div>
- $$ p = \text{clamp}\left(p_{\min}, t\,b\frac{d}{s}, p_{\max}\right).  $$
+ $$ p = \text{clamp}\left(p_{\min}, b\frac{d}{s\,t}, p_{\max}\right).  $$
 </div>
 Now we could, in theory, match the sensitivity of goods by storing $t=10$ ticks worth of goods.
 This also creates extra capacity in the market that can be sold off via trade.
