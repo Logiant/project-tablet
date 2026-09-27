@@ -32,7 +32,7 @@ It turns out the Assyrians had a long history of trade, going back at least to t
 The book
 <a href="https://www.goodreads.com/en/book/show/61918856-assyria">_Assyria_</a> by Eckart Frahm has a great description of Assyria's long history of international trade, and documents their advantageous positioning as a trade hub.
 
-This has been a long tangent on the history of deep trade networks during the Bronze Age, and I think Nolan's Odyssey has a much more fitting quote that captures the spirit of the game: "_This is Agamemnon’s excuse to break Troy’s control of the trading routes. He won’t let it pass. Ever._"
+This has been a long tangent on the history of deep trade networks during the Bronze Age, and I think Nolan's _Odyssey_ has a much more fitting quote that captures the spirit of the game: "_This is Agamemnon’s excuse to break Troy’s control of the trading routes. He won’t let it pass. Ever._"
 
 ## The Testbed
 
