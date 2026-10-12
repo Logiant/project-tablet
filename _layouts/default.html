@@ -91,5 +91,17 @@
     })();
   </script>
 
+ <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: false });
+    document.querySelectorAll('.language-mermaid').forEach(b => {
+      const d = document.createElement('div');
+      d.className = 'mermaid';
+      d.textContent = b.textContent;
+      (b.closest('div.highlighter-rouge') || b.closest('pre') || b).replaceWith(d);
+    });
+    await mermaid.run({ querySelector: '.mermaid' });
+  </script>
+  
 </body>
 </html>
