@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Darksnac</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; color: #fff; font: 14px/1.2 monospace; }
+  body { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  #hud { display: flex; gap: 1.5em; padding: 4px 0; }
+  canvas { display: block; width: min(100%, 520px, calc(100vh - 32px)); height: auto; touch-action: none; outline: none; }
+</style>
+</head>
+<body>
+<div id="hud" aria-live="polite"></div>
+<canvas id="c" tabindex="0" aria-label="Darksnac. Arrow keys or WASD to move, swipe on touch screens."></canvas>
+<script>
+const MAP = [
+  "#####################",
+  "#...................#",
+  "#.######.#.#.######.#",
+  "#.#....#.#.#.#....#.#",
+  "#.#......#.#......#.#",
+  "#.#....#.#.#.#....#.#",
+  "#.#....#.#.#.#....#.#",
+  "#.##.###.#.#.###.##.#",
+  "#...................#",
+  "#.#####.#   #.#####.#",
+  "........#GGG#........",
+  "#.#####.#   #.#####.#",
+  "#...................#",
+  "#.##.###.#.#.###.##.#",
+  "#.#....#.#.#.#....#.#",
+  "#.#....#.#.#.#....#.#",
+  "#.#......#.#......#.#",
+  "#.#....#.#.#.#....#.#",
+  "#.######.#.#.######.#",
+  "#.........P.........#",
+  "#####################",
+];
+// Each corner is a 4x4 room with two doors facing the centre, inside a 1-wide ring corridor:
+// fill the ring with your tail and the room is sealed off.
+// '.' is floor that may get a pellet; ' ' / G / P are floor that never does.
+const W = MAP[0].length, H = MAP.length, T = 24;
+const STEP_SLOW = 220, STEP_FAST = 90, ACCEL = 0.88;  // ms per tile; each straight tile multiplies the step by ACCEL
+const GHOST_SLOW = 260, GHOST_FAST = 200;  // ghosts speed up as the board empties
+const PLAN = 5;                       // tiles of each ghost's committed path shown ahead of it
+const PELLETS = 50;                   // randomly placed each game
+const RELEASE = 2500, CHEW = 1000;    // stagger between ghosts leaving the pen; stun after biting the tail
+const GROW_EVERY = 1;                 // pellets per tail segment
+const RESPAWN = 6000;
+const COLORS = ['#ff3b3b', '#ff9ad5', '#38f0ff'];
+const CHASE = [0.85, 0.6, 0.35];      // chance each ghost steps toward you instead of randomly
+const DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
+
+const wrap = x => (x + W) % W;        // the row-10 tunnel wraps left/right
+const key = (x, y) => y * W + x;
+const wall = (x, y) => y < 0 || y >= H || MAP[y][x] === '#';
+const nbrs = (x, y) => Object.values(DIRS).map(([dx, dy]) => [wrap(x + dx), y + dy]).filter(([a, b]) => !wall(a, b));
+
+const OPEN = [], ORBS = [], SPAWNS = [];
+let START;
+MAP.forEach((row, y) => [...row].forEach((c, x) => {
+  if (c !== '#') OPEN.push([x, y]);
+  if (c === '.') ORBS.push(key(x, y));
+  if (c === 'G') SPAWNS.push([x, y]);
+  if (c === 'P') START = [x, y];
+}));
+
+// Self-check: every row is the same width, no dead ends, and the whole maze is one connected region.
+console.assert(MAP.every(r => r.length === W), 'ragged maze row');
+console.assert(OPEN.every(([x, y]) => nbrs(x, y).length >= 2), 'maze has a dead end');
+console.assert(regions(new Set()).sizes.length === 1, 'maze is not connected');
+console.assert(ORBS.length >= PELLETS, 'not enough floor for pellets');
+
+// Flood-fill the open cells not covered by the snake; returns region id per cell and region sizes.
+function regions(blocked) {
+  const id = new Map(), sizes = [];
+  for (const [sx, sy] of OPEN) {
+    const k0 = key(sx, sy);
+    if (blocked.has(k0) || id.has(k0)) continue;
+    const r = sizes.length, stack = [[sx, sy]];
+    id.set(k0, r); sizes.push(0);
+    while (stack.length) {
+      const [x, y] = stack.pop(); sizes[r]++;
+      for (const [nx, ny] of nbrs(x, y)) {
+        const k = key(nx, ny);
+        if (!blocked.has(k) && !id.has(k)) { id.set(k, r); stack.push([nx, ny]); }
+      }
+    }
+  }
+  return { id, sizes };
+}
+
+const cv = document.getElementById('c'), ctx = cv.getContext('2d'), hudEl = document.getElementById('hud');
+cv.width = W * T; cv.height = H * T;
+
+let orbs, score, lives, eaten, body, dir, want, grow, streak, ghosts, pops, flashes, crumbs, state, stateT, pAcc, gAcc, now = 0, last = 0;
+let best = 0, newBest = false;
+try { best = +localStorage.getItem('darksnac-best') || 0; } catch {}
+
+function resetActors() {
+  body = [[...START]]; dir = null; want = null; grow = 0; streak = 0; pAcc = gAcc = 0;
+  // wait: ghost is idle until this time (pen release, or chewing after a bite)
+  ghosts = SPAWNS.map(([x, y], i) => ({ x, y, d: [0, -1], i, dead: false, at: 0, wait: Infinity, plan: [] }));
+  ghosts.forEach(extendPlan);
+}
+function newGame() {
+  // Fisher-Yates shuffle of the pellet-eligible floor, keep the first PELLETS
+  const pool = [...ORBS];
+  for (let i = pool.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [pool[i], pool[j]] = [pool[j], pool[i]]; }
+  orbs = new Set(pool.slice(0, PELLETS)); score = 0; lives = 3; eaten = 0; pops = []; flashes = []; crumbs = []; newBest = false;
+  resetActors(); state = 'ready';
+}
+function setState(s, delay = 0) {
+  state = s; stateT = now + delay;
+  if ((s === 'over' || s === 'won') && score > best) {
+    best = score; newBest = true;
+    try { localStorage.setItem('darksnac-best', best); } catch {}
+  }
+}
+function die() { lives--; setState(lives > 0 ? 'dying' : 'over', 1200); }
+
+const at = (x, y) => body.findIndex(([bx, by]) => bx === x && by === y);
+const mainRegion = () => {
+  const r = regions(new Set(body.map(([x, y]) => key(x, y))));
+  return { id: r.id, main: r.sizes.indexOf(Math.max(...r.sizes)) };
+};
+
+// Every pocket sealed off from the largest open region by tail + walls is claimed:
+// its orbs are eaten and its ghosts defeated, doubling points per ghost in the same move.
+function enclose() {
+  const { id, main } = mainRegion(), pockets = new Map();
+  for (const [x, y] of OPEN) {
+    const k = key(x, y), r = id.get(k);
+    if (r !== undefined && r !== main) (pockets.get(r) || pockets.set(r, []).get(r)).push(k);
+  }
+  let kills = 0;
+  for (const [r, cells] of pockets) {
+    const caught = ghosts.filter(g => !g.dead && id.get(key(g.x, g.y)) === r);
+    const food = cells.filter(k => orbs.has(k));
+    if (!caught.length && !food.length) continue;
+    for (const k of food) orbs.delete(k);
+    score += 10 * food.length;
+    if (food.length) pops.push({ x: cells[0] % W, y: cells[0] / W | 0, t: now, text: `+${10 * food.length}` });
+    for (const g of caught) {
+      const pts = 200 << kills++;
+      score += pts; g.dead = true; g.at = now + RESPAWN;
+      pops.push({ x: g.x, y: g.y, t: now, text: `+${pts}` });
+    }
+    flashes.push({ cells, t: now });
+  }
+}
+
+function stepPlayer() {
+  const tryDir = d => {
+    if (!d) return null;
+    const nx = wrap(body[0][0] + d[0]), ny = body[0][1] + d[1];
+    if (wall(nx, ny)) return null;
+    const i = at(nx, ny);
+    // the tail tip moves out of the way this tick unless we're growing
+    if (i >= 0 && !(i > 1 && i === body.length - 1 && grow === 0)) return null;
+    return [nx, ny];
+  };
+  let n = tryDir(want), turned = false;
+  if (n) { turned = dir !== want; dir = want; } else n = tryDir(dir);
+  if (!n) { streak = 0; return; }      // blocked by wall or own body: stand still and lose momentum
+  streak = turned ? 0 : streak + 1;    // speed builds along a straight line, resets on any turn
+  body.unshift(n);
+  if (grow > 0) grow--; else body.pop();
+  if (orbs.delete(key(...n))) { score += 10; if (++eaten % GROW_EVERY === 0) grow++; }
+  if (ghosts.some(g => !g.dead && g.x === n[0] && g.y === n[1])) return die();
+  enclose();
+  if (!orbs.size) setState('won', 800);
+}
+
+// Ghosts commit to their next PLAN tiles; each step appends one more, aimed at where your head is now.
+function extendPlan(g) {
+  while (g.plan.length < PLAN) {
+    const [x, y, d] = g.plan.at(-1) || [g.x, g.y, g.d];
+    const opts = Object.values(DIRS).filter(([dx, dy]) => !wall(wrap(x + dx), y + dy));
+    let c = opts.filter(([dx, dy]) => dx !== -d[0] || dy !== -d[1]);
+    if (!c.length) c = opts;
+    const [hx, hy] = body[0];
+    const dist = ([dx, dy]) => Math.abs(wrap(x + dx) - hx) + Math.abs(y + dy - hy);
+    const nd = Math.random() < CHASE[g.i] ? c.reduce((a, b) => dist(b) < dist(a) ? b : a) : c[Math.random() * c.length | 0];
+    g.plan.push([wrap(x + nd[0]), y + nd[1], nd]);
+  }
+}
+
+function stepGhost(g) {
+  if (g.dead) {
+    const [sx, sy] = SPAWNS[g.i];
+    if (now < g.at || at(sx, sy) >= 0) return;
+    const { id, main } = mainRegion();
+    if (id.get(key(sx, sy)) === main) {
+      Object.assign(g, { x: sx, y: sy, d: [0, -1], dead: false, wait: 0, plan: [] });
+      extendPlan(g);
+    }
+    return;
+  }
+  if (now < g.wait) return;
+  [g.x, g.y, g.d] = g.plan.shift();    // ghosts follow the path they've already shown
+  extendPlan(g);
+  const i = at(g.x, g.y);
+  if (i === 0) return die();
+  if (i > 0) {                         // ghost bites the tail: everything from here back is gone
+    crumbs.push({ cells: body.splice(i), t: now });
+    g.wait = now + CHEW;               // ...and stops to chew, a window to trap it
+  }
+}
+
+function frame(t) {
+  const dt = Math.min(t - last, 100); last = t; now = t;
+  if (state === 'play') {
+    pAcc += dt; gAcc += dt;
+    const pStep = () => Math.max(STEP_FAST, STEP_SLOW * ACCEL ** streak);
+    while (pAcc >= pStep() && state === 'play') { pAcc -= pStep(); stepPlayer(); }
+    const gStep = GHOST_FAST + (GHOST_SLOW - GHOST_FAST) * orbs.size / ORBS.length;
+    while (gAcc >= gStep && state === 'play') { gAcc -= gStep; for (const g of ghosts) if (state === 'play') stepGhost(g); }
+  } else if (state === 'dying' && now >= stateT) { resetActors(); state = 'ready'; }
+  draw(); hud();
+  requestAnimationFrame(frame);
+}
+
+let lastHud = '';
+function hud() {
+  const s = `Score ${score}  ·  Best ${best}  ·  Lives ${'♥'.repeat(lives)}  ·  Tail ${body.length - 1}`;
+  if (s !== lastHud) hudEl.textContent = lastHud = s;
+}
+
+function draw() {
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, cv.width, cv.height);
+  ctx.fillStyle = '#1f33b8';
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) if (wall(x, y)) ctx.fillRect(x * T + 1, y * T + 1, T - 2, T - 2);
+  ctx.fillStyle = '#ffd8b0';
+  for (const k of orbs) { ctx.beginPath(); ctx.arc((k % W + .5) * T, ((k / W | 0) + .5) * T, 4, 0, 7); ctx.fill(); }
+
+  // telegraph: each ghost's committed next PLAN tiles, fading with distance
+  for (const g of ghosts) if (!g.dead) g.plan.forEach(([x, y], j) => {
+    ctx.globalAlpha = .55 * (1 - j / PLAN);
+    ctx.fillStyle = COLORS[g.i];
+    const s = T * (.5 - j * .05);
+    ctx.fillRect((x + .5) * T - s / 2, (y + .5) * T - s / 2, s, s);
+  });
+  ctx.globalAlpha = 1;
+
+  flashes = flashes.filter(f => now - f.t < 600);
+  for (const f of flashes) {
+    ctx.fillStyle = `rgba(255,230,0,${.4 * (1 - (now - f.t) / 600)})`;
+    for (const k of f.cells) ctx.fillRect(k % W * T, (k / W | 0) * T, T, T);
+  }
+  crumbs = crumbs.filter(c => now - c.t < 500);
+  for (const c of crumbs) {
+    const a = 1 - (now - c.t) / 500;
+    ctx.fillStyle = `rgba(217,184,0,${a})`;
+    for (const [x, y] of c.cells) { ctx.beginPath(); ctx.arc((x + .5) * T, (y + .5) * T, T * .3 * a, 0, 7); ctx.fill(); }
+  }
+
+  // tail: a thick round-capped line through the segments, broken where it wraps through the tunnel
+  const c = ([x, y]) => [(x + .5) * T, (y + .5) * T];
+  ctx.strokeStyle = '#d9b800'; ctx.lineWidth = T * .6; ctx.lineCap = ctx.lineJoin = 'round';
+  ctx.beginPath(); ctx.moveTo(...c(body[0]));
+  for (let i = 1; i < body.length; i++) {
+    if (Math.abs(body[i][0] - body[i - 1][0]) > 1) ctx.moveTo(...c(body[i])); else ctx.lineTo(...c(body[i]));
+  }
+  ctx.stroke();
+
+  const [hx, hy] = c(body[0]);
+  const ang = Math.atan2(...(dir || [1, 0]).slice().reverse());
+  const m = state === 'play' && dir ? .05 + .25 * Math.abs(Math.sin(now / 70)) : .2;
+  ctx.fillStyle = '#ffe600'; ctx.beginPath(); ctx.moveTo(hx, hy);
+  ctx.arc(hx, hy, T * .46, ang + m * Math.PI, ang + (2 - m) * Math.PI); ctx.fill();
+
+  for (const g of ghosts) {
+    // dead ghosts blink in the pen for the last 1.5s before respawning
+    if (g.dead && !(now > g.at - 1500 && (now / 120 | 0) % 2)) continue;
+    const [gx, gy] = c(g.dead ? SPAWNS[g.i] : [g.x, g.y]), r = T * .42;
+    ctx.globalAlpha = g.dead || now < g.wait ? .5 : 1;   // faded = idle or chewing
+    ctx.fillStyle = COLORS[g.i]; ctx.beginPath();
+    ctx.arc(gx, gy - r * .1, r, Math.PI, 0); ctx.lineTo(gx + r, gy + r);
+    for (let j = 1; j <= 4; j++) ctx.lineTo(gx + r - j * r / 2, gy + r - (j % 2 ? r * .3 : 0));
+    ctx.fill();
+    for (const s of [-1, 1]) {
+      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(gx + s * r * .38, gy - r * .2, r * .28, 0, 7); ctx.fill();
+      ctx.fillStyle = '#123'; ctx.beginPath(); ctx.arc(gx + s * r * .38 + g.d[0] * r * .12, gy - r * .2 + g.d[1] * r * .12, r * .14, 0, 7); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  ctx.font = 'bold 14px monospace'; ctx.textAlign = 'center';
+  pops = pops.filter(p => now - p.t < 900);
+  for (const p of pops) { ctx.fillStyle = `rgba(255,255,255,${1 - (now - p.t) / 900})`; ctx.fillText(p.text, (p.x + .5) * T, (p.y + .5) * T - (now - p.t) / 30); }
+
+  const tag = newBest ? 'NEW BEST ' : 'Score ';
+  const msg = {
+    ready: ['DARKSNAC', 'Ghosts show their path. Go straight to go fast.'],
+    over: ['GAME OVER', `${tag}${score} · press any key`],
+    won: ['YOU WIN!', `${tag}${score} · press any key`],
+  }[state];
+  if (msg) {
+    ctx.fillStyle = 'rgba(0,0,0,.75)'; ctx.fillRect(0, H * T / 2 - 34, cv.width, 60);
+    ctx.fillStyle = '#ffe600'; ctx.font = 'bold 22px monospace'; ctx.fillText(msg[0], cv.width / 2, H * T / 2 - 8);
+    ctx.fillStyle = '#fff'; ctx.font = '13px monospace'; ctx.fillText(msg[1], cv.width / 2, H * T / 2 + 16);
+  }
+}
+
+function input(name) {
+  if (state === 'over' || state === 'won') { if (now >= stateT) newGame(); return; }
+  if (state === 'dying' || !name) return;
+  want = DIRS[name];
+  if (state === 'ready') {
+    state = 'play';
+    for (const g of ghosts) if (!g.dead) g.wait = now + g.i * RELEASE;   // pac-man style staggered release
+  }
+}
+const KEYS = { ArrowUp: 'up', KeyW: 'up', ArrowDown: 'down', KeyS: 'down', ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right' };
+addEventListener('keydown', e => {
+  const n = KEYS[e.code];
+  if (n) { e.preventDefault(); input(n); }
+  else if (e.code === 'Space' || e.code === 'Enter') { e.preventDefault(); input(null); }
+});
+cv.addEventListener('pointerdown', () => cv.focus());
+let ts = null;
+cv.addEventListener('touchstart', e => { ts = [e.touches[0].clientX, e.touches[0].clientY]; e.preventDefault(); }, { passive: false });
+cv.addEventListener('touchend', e => {
+  if (!ts) return;
+  const dx = e.changedTouches[0].clientX - ts[0], dy = e.changedTouches[0].clientY - ts[1]; ts = null;
+  if (Math.max(Math.abs(dx), Math.abs(dy)) < 20) return input(null);   // tap: only restarts after game over
+  input(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up'));
+});
+
+newGame();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
