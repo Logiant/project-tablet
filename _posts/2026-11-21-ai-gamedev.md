@@ -119,7 +119,7 @@ I think there are many kinds of developers looking to adopt AI into their toolki
 Here is my unsolicited advice based on your taste and vision levels:
 
 
-If you have neither strong <b>taste</b> nor <b>vision</b> you will almost certainly fail.
+If you don't have strong <b>taste</b> or <b>vision</b> you will almost certainly fail.
 This group includes AI enthusiasts and tech bros who think they can make a quick game with a swarm of AI agents.
 If you have bad taste (because you don't play games), your game is going to suck and I don't want to play it.
 If you make a post online asking "what do I add next?" then you have a weak <b>vision</b> and you're probably going to get flamed.
