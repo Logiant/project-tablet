@@ -84,8 +84,8 @@ I don't think (3) is even mechanically possible to achieve, it's an example of C
 
 This leaves (2) and (6) as legitimate game design concerns.
 However, Claude frames (2) from the perspective of trapping ghosts as part of the high-level "game fantasy."
-This doesn't give us anything actionable in terms of game mechanics -- do we redesign the level? change player movement? randomize enemy spawns?
-In contrast, the suggestion to resolve (6) is a new mechanic: when the tail is cut, turn it into pellets.
+It suggested opening up the level as a solution, but is that the <i>right</i> design decision? Why not change player movement? randomize enemy spawns?
+The suggestion to resolve (6) is a new mechanic: when the tail is cut, turn it into pellets.
 However, the <b>level design and tail</b> interaction tells us this will be a bad design: the 50% of the spaces without pellets are locations where your tail is, and losing your tail fills these spaces back up with pellets.
 That resets up to 50% of the world's empty spaces, which is way more punishing!
 
